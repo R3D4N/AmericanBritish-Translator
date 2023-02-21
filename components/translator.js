@@ -5,7 +5,7 @@ const britishOnly = require('./british-only.js')
 
 class Translator {
     americanToBritishTranslator(text) {
-        let textArray = [text.toLowerCase()]
+        let textArray = [text]
         let dictionaryWord = { ...americanToBritishTitles, ...americanToBritishSpelling }
         textArray[0] = this.translate(textArray, dictionaryWord, americanOnly, 'american')
         if (textArray[0] === text) {
@@ -15,7 +15,7 @@ class Translator {
     }
 
     britishToAmericanTranslator(text) {
-        let textArray = [text.toLowerCase()]
+        let textArray = [text]
         // reverse dictionaries
         let britishToAmericanTitles = this.reversingDict(americanToBritishTitles)
         let britishToAmericanSpelling = this.reversingDict(americanToBritishSpelling)
@@ -32,8 +32,10 @@ class Translator {
         let replaceDict = {}
         let entrieValues = Object.entries(onlyDictionary)
         for (const [key, value] of entrieValues) {
-            if (text[0].includes(key)) {
-                replaceDict[key] = value
+            let index = text[0].toLowerCase().indexOf(key)
+            if (index != -1) {
+                let sliceWord = text[0].slice(index, key.length)
+                replaceDict[sliceWord] = value
             }
         }
 
@@ -41,9 +43,9 @@ class Translator {
         let titleRegex = /(mr|mrs|ms|mx|dr|prof)\.?/g
         let ocurrencias = new Set(text[0].match(wordRegex))
         for (const ocurrencia of ocurrencias) {
-            if (dictionary[ocurrencia]) {
-                let value = dictionary[ocurrencia]
-                if(titleRegex.test(ocurrencia)){
+            if (dictionary[ocurrencia.toLowerCase()]) {
+                let value = dictionary[ocurrencia.toLowerCase()]
+                if(titleRegex.test(ocurrencia.toLowerCase())){
                     value = this.capitalizeFirstLetter(value)
                 }
                 replaceDict[ocurrencia] = value
