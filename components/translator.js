@@ -9,9 +9,9 @@ class Translator {
         let dictionaryWord = { ...americanToBritishTitles, ...americanToBritishSpelling }
         textArray[0] = this.translate(textArray, dictionaryWord, americanOnly, 'american')
         if (textArray[0] === text) {
-            return {translation: 'Everything looks good to me!'}
+            return {translation: 'Everything looks good to me!', text}
         }
-        return {translation: textArray[0]}
+        return {translation: textArray[0], text}
     }
 
     britishToAmericanTranslator(text) {
@@ -23,9 +23,9 @@ class Translator {
         let dictionaryWord = { ...britishToAmericanTitles, ...britishToAmericanSpelling }
         textArray[0] = this.translate(textArray, dictionaryWord, britishOnly, 'british')
         if (textArray[0] === text) {
-            return {translation: 'Everything looks good to me!'}
+            return {translation: 'Everything looks good to me!', text}
         }
-        return {translation: textArray[0]}
+        return {translation: textArray[0], text}
     }
 
     translate(text, dictionary, onlyDictionary, time) {
